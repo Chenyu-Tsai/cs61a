@@ -170,25 +170,29 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     break_flag = False
     while score0 < goal and score1 < goal:
         score0 = score0 + take_turn(strategy0(score0, score1), score1, dice)
+        say = say(score0, score1)
         if score0 >= goal:
             return score0, score1
         extra_turn = pig_pass(score0, score1) or swine_align(score0, score1)
         while extra_turn == True:
             score0 = score0 + take_turn(strategy0(score0, score1), score1, dice)
+            say = say(score0, score1)
             if score0 >= goal:
                 break_flag = True
                 break
             extra_turn = pig_pass(score0, score1) or swine_align(score0, score1)
         if break_flag:
             break
-            
+
         score1 = score1 + take_turn(strategy1(score1, score0), score0, dice)
+        say = say(score0, score1)
         if score1 >= goal:
             return score0, score1
         extra_turn = pig_pass(score1, score0) or swine_align(score1, score0)
 
         while extra_turn == True:
             score1 = score1 + take_turn(strategy1(score1, score0), score0, dice)
+            say = say(score0, score1)
             if score1 >= goal:
                 break_flag = True
                 break
@@ -196,10 +200,11 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
         if break_flag:
             break
 
+
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+
     # END PROBLEM 6
     return score0, score1
 

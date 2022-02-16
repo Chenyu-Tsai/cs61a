@@ -288,7 +288,24 @@ def announce_highest(who, last_score=0, running_high=0):
     """
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    def say(score0, score1):
+        if who:
+            if score1 - last_score > running_high:
+                print(f'{score1 - last_score} point(s)! The most yet for Player1')
+                highest = score1 - last_score
+                score = score1
+            else:
+                highest = running_high
+                score = score1
+        else:
+            if score0 - last_score > running_high:
+                print(f'{score0 - last_score} point(s)! The most yet for Player0')
+                highest = score0 - last_score
+                score = score0
+            else:
+                highest = running_high
+                score = score0
+    return say
     # END PROBLEM 7
 
 
@@ -328,7 +345,14 @@ def make_averaged(original_function, trials_count=1000):
     3.0
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def avg(*args):
+        n = 0
+        res = 0
+        while n < trials_count:
+            res += original_function(*args)
+            n += 1    
+        return res / trials_count
+    return avg
     # END PROBLEM 8
 
 
@@ -342,7 +366,15 @@ def max_scoring_num_rolls(dice=six_sided, trials_count=1000):
     1
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    res = make_averaged(roll_dice, trials_count)
+    prev = 0
+    for n in range(1, 11):
+        curr = res(n, dice)
+        if prev > curr:
+            return n - 1
+        else:
+            prev = curr
+    return 10
     # END PROBLEM 9
 
 
@@ -392,7 +424,7 @@ def bacon_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     rolls NUM_ROLLS otherwise.
     """
     # BEGIN PROBLEM 10
-    return 6  # Replace this statement
+    return 0 if free_bacon(opponent_score) >= cutoff else num_rolls
     # END PROBLEM 10
 
 
@@ -402,7 +434,7 @@ def extra_turn_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     Otherwise, it rolls NUM_ROLLS.
     """
     # BEGIN PROBLEM 11
-    return 6  # Replace this statement
+    return 0 if pig_pass(score+free_bacon(opponent_score), opponent_score) or swine_align(score+free_bacon(opponent_score), opponent_score) or bacon_strategy(score, opponent_score, cutoff, num_rolls) == 0 else num_rolls
     # END PROBLEM 11
 
 
